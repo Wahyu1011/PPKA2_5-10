@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar | Sistem Pendaftaran</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Buat Akun</h1>
+            <p>Silakan isi data untuk mendaftar</p>
+        </div>
+        <form id="registerForm" class="login-form">
+            <div class="input-group">
+                <label for="regUsername">Username</label>
+                <input type="text" id="regUsername" name="username" placeholder="Pilih username" required>
+            </div>
+            <div class="input-group">
+                <label for="regEmail">Email</label>
+                <input type="email" id="regEmail" name="email" placeholder="Masukkan alamat email" required>
+            </div>
+            <div class="input-group">
+                <label for="regPassword">Password</label>
+                <input type="password" id="regPassword" name="password" placeholder="Buat password" required>
+            </div>
+            <div class="input-group">
+                <label for="regConfirmPassword">Konfirmasi Password</label>
+                <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="Ulangi password" required>
+            </div>
+            <button type="submit" class="login-btn" id="registerBtn">
+                <span class="btn-text">Daftar</span>
+                <div class="spinner" id="regSpinner"></div>
+            </button>
+            <div id="regErrorMessage" class="error-message"></div>
+        </form>
+        <div class="login-footer">
+            <p>Sudah punya akun? <a href="index.html">Masuk di sini</a></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
