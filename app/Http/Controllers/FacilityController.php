@@ -9,9 +9,17 @@ use Illuminate\Support\Facades\Storage;
 
 class FacilityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $facilities = Facility::all();
+        $query = Facility::query();
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('location', 'like', '%' . $request->search . '%')
+                  ->orWhere('type', 'like', '%' . $request->search . '%');
+            });
+        }
+        $facilities = $query->get();
         return view('facilities', compact('facilities'));
     }
 
@@ -27,6 +35,9 @@ class FacilityController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'capacity' => 'required|integer|min:1',
+            'status' => 'required|in:active,maintenance',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -53,6 +64,9 @@ class FacilityController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'capacity' => 'required|integer|min:1',
+            'status' => 'required|in:active,maintenance',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',

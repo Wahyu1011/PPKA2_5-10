@@ -27,6 +27,27 @@
                        style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.8rem; border-radius: 8px; color: white; outline: none;">
             </div>
 
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label for="type" style="font-weight: 500;">Tipe Fasilitas</label>
+                    <input type="text" id="type" name="type" value="{{ old('type', $facility->type ?? '') }}" placeholder="Contoh: Ruang Kelas, Lapangan" required
+                           style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.8rem; border-radius: 8px; color: white; outline: none;">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label for="capacity" style="font-weight: 500;">Kapasitas (Orang)</label>
+                    <input type="number" id="capacity" name="capacity" value="{{ old('capacity', $facility->capacity ?? '') }}" placeholder="Contoh: 50" required
+                           style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.8rem; border-radius: 8px; color: white; outline: none;">
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="status" style="font-weight: 500;">Status Fasilitas</label>
+                <select id="status" name="status" required style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.8rem; border-radius: 8px; color: white; outline: none;">
+                    <option value="active" {{ old('status', $facility->status ?? 'active') == 'active' ? 'selected' : '' }}>Aktif (Bisa Dipesan)</option>
+                    <option value="maintenance" {{ old('status', $facility->status ?? '') == 'maintenance' ? 'selected' : '' }}>Dalam Perbaikan (Tidak Bisa Dipesan)</option>
+                </select>
+            </div>
+
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <label for="description" style="font-weight: 500;">Deskripsi & Kegunaan</label>
                 <textarea id="description" name="description" rows="4" required

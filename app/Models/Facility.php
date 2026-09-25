@@ -9,7 +9,7 @@ class Facility extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'location', 'description', 'image_url'];
+    protected $fillable = ['name', 'type', 'capacity', 'location', 'description', 'image_url', 'status'];
 
     public function reservations()
     {

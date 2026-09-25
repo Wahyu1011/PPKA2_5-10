@@ -23,7 +23,17 @@ Route::middleware('auth')->group(function () {
         return view('reservations');
     })->name('reservations.index');
     
+    Route::get('/reservations/export', [ReservationController::class, 'exportCsv'])->name('reservations.export');
+    Route::get('/reservations/create/{facility}', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::post('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+    Route::post('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
+    Route::post('/reservations/{reservation}/admin-cancel', [ReservationController::class, 'adminCancel'])->name('reservations.adminCancel');
+    
+    Route::resource('reports', App\Http\Controllers\ReportController::class)->except(['edit', 'update', 'destroy']);
+    Route::post('/reports/{report}/status', [App\Http\Controllers\ReportController::class, 'updateStatus'])->name('reports.updateStatus');
+    
+    Route::resource('users', App\Http\Controllers\UserController::class)->only(['index', 'store']);
+    Route::post('/users/{user}/status', [App\Http\Controllers\UserController::class, 'updateStatus'])->name('users.updateStatus');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

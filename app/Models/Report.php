@@ -5,33 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reservation extends Model
+class Report extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'facility_id',
-        'start_time',
-        'end_time',
+        'category',
+        'description',
+        'image_url',
         'status',
-        'nim',
-        'department',
-        'organization',
-        'phone',
-        'activity_name',
-        'participant_count',
-        'commitment_agreed',
-        'cancellation_reason'
+        'resolution_note'
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'start_time' => 'datetime',
-            'end_time' => 'datetime',
-        ];
-    }
 
     public function user()
     {

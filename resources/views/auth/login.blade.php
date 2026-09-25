@@ -39,6 +39,11 @@
                     {{ $errors->first() }}
                 @endif
             </div>
+            @if(session('success'))
+                <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; padding: 0.8rem; border-radius: 8px; margin-top: 1rem; font-size: 0.85rem; text-align: center;">
+                    {{ session('success') }}
+                </div>
+            @endif
         </form>
         <div class="login-footer">
             <p>Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a></p>

@@ -22,6 +22,15 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
+            if ($user->account_status === 'pending') {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Akun Anda belum diverifikasi oleh admin. Harap menunggu.']);
+            } elseif ($user->account_status === 'rejected') {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Pendaftaran akun Anda ditolak oleh admin.']);
+            }
+
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }
@@ -44,16 +53,15 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user', 
+            'account_status' => 'pending'
         ]);
 
-        Auth::login($user);
-
-        return redirect('dashboard');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan tunggu verifikasi admin sebelum login.');
     }
 
     public function logout(Request $request)

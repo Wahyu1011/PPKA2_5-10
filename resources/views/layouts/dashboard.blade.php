@@ -16,9 +16,12 @@
                 @if(Auth::user()->role === 'admin')
                     <a href="{{ route('reservations.index') }}" class="nav-item {{ request()->routeIs('reservations.index') ? 'active' : '' }}"><i class="fas fa-list-alt"></i> <span>Semua Reservasi</span></a>
                     <a href="{{ route('facilities.index') }}" class="nav-item {{ request()->routeIs('facilities.index') ? 'active' : '' }}"><i class="fas fa-building"></i> <span>Kelola Fasilitas</span></a>
+                    <a href="{{ route('reports.index') }}" class="nav-item {{ request()->routeIs('reports.*') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> <span>Daftar Laporan</span></a>
+                    <a href="{{ route('users.index') }}" class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}"><i class="fas fa-users"></i> <span>Kelola Pengguna</span></a>
                 @else
                     <a href="{{ route('reservations.index') }}" class="nav-item {{ request()->routeIs('reservations.index') ? 'active' : '' }}"><i class="fas fa-calendar-alt"></i> <span>Reservasi Saya</span></a>
                     <a href="{{ route('facilities.index') }}" class="nav-item {{ request()->routeIs('facilities.index') ? 'active' : '' }}"><i class="fas fa-building"></i> <span>Fasilitas</span></a>
+                    <a href="{{ route('reports.index') }}" class="nav-item {{ request()->routeIs('reports.*') ? 'active' : '' }}"><i class="fas fa-exclamation-triangle"></i> <span>Laporan Kerusakan</span></a>
                 @endif
             </nav>
             <div class="sidebar-footer">
@@ -34,14 +37,21 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="top-header">
-                <div class="search-bar">
+                <form action="{{ route('facilities.index') }}" method="GET" class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Cari fasilitas...">
-                </div>
+                    <input type="text" name="search" placeholder="Cari fasilitas..." value="{{ request('search') }}">
+                </form>
                 <div class="user-profile">
                     <div class="notification-bell">
                         <i class="fas fa-bell"></i>
-                        <span class="badge">{{ \App\Models\Reservation::where('status', 'pending')->count() }}</span>
+                        @php
+                            $notifCount = Auth::user()->role === 'admin' 
+                                ? \App\Models\Reservation::where('status', 'pending')->count()
+                                : \App\Models\Reservation::where('user_id', Auth::id())->where('status', 'approved')->where('start_time', '>=', now())->count();
+                        @endphp
+                        @if($notifCount > 0)
+                            <span class="badge">{{ $notifCount }}</span>
+                        @endif
                     </div>
                     <div class="avatar">
                         <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6366f1&color=fff" alt="User Avatar">
