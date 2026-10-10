@@ -47,6 +47,7 @@
         </form>
         <div class="login-footer">
             <p>Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a></p>
+            <p style="margin-top: 0.5rem;">atau <a href="{{ route('guest.dashboard') }}">Masuk sebagai Tamu</a></p>
         </div>
     </div>
 @endsection

@@ -3,10 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ReservationController;
 
 Route::get('/', function () {
     return redirect()->route('login');
+});
+
+// Dashboard Tamu (publik, read-only, tanpa login)
+Route::prefix('guest')->name('guest.')->group(function () {
+    Route::get('/', [GuestController::class, 'index'])->name('dashboard');
+    Route::get('/reservations', [GuestController::class, 'reservations'])->name('reservations');
+    Route::get('/facilities', [GuestController::class, 'facilities'])->name('facilities');
 });
 
 Route::middleware('guest')->group(function () {
